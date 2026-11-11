@@ -2,9 +2,12 @@
 // Baseline (No-AI) Frontend Logic — Skin Lesion Triage Study
 // ============================================================================
 
-// Configure your Python Backend API URL here (local default: http://127.0.0.1:8000)
-const BACKEND_API_URL = window.BACKEND_API_URL || "http://127.0.0.1:8000";
+// Configure your Python Backend API URL here (live Render backend)
+const BACKEND_API_URL = window.BACKEND_API_URL || "https://hai-assignment3-backend.onrender.com";
 const NUM_STUDY_TRIALS = 10; // 10 real trials + 1 attention check = 11 total
+
+// Warm up Render backend in the background while participant reads instructions
+fetch(`${BACKEND_API_URL}/api/health`).catch(() => {});
 
 let participantId = "";
 let trials = []; // Array of 11 trial objects (10 real + 1 attention check)
