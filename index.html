@@ -29,6 +29,11 @@
                 <span>Your Assigned Participant ID:</span>
                 <strong id="generated-participant-id">Generating...</strong>
             </div>
+            <div class="form-group">
+                <label for="participant-name-input">Enter your Uniqname or Name:</label>
+                <input type="text" id="participant-name-input" placeholder="e.g., jdoe / Jane Doe" autocomplete="off">
+                <span id="start-error" class="error-text hidden">Please enter your Uniqname or Name to begin.</span>
+            </div>
             <button id="start-study-btn" class="primary-btn">Start Study (11 Trials)</button>
         </div>
     </div>
@@ -230,6 +235,6 @@
         </footer>
     </div>
 
-    <script src="app.js?v=3"></script>
+    <script src="app.js?v=4"></script>
 </body>
 </html>
