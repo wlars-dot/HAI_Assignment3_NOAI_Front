@@ -10,6 +10,7 @@ const NUM_STUDY_TRIALS = 10; // 10 real trials + 1 attention check = 11 total
 fetch(`${BACKEND_API_URL}/api/health`).catch(() => {});
 
 let participantId = "";
+let participantName = "";
 let trials = []; // Array of 11 trial objects (10 real + 1 attention check)
 let currentIndex = 0;
 let studyStartTime = null;
@@ -272,7 +273,8 @@ startStudyBtn.addEventListener("click", async () => {
         return;
     }
     if (startError) startError.classList.add("hidden");
-    participantId = `${enteredName} (${generatedUniqueId})`;
+    participantId = generatedUniqueId;
+    participantName = enteredName;
 
     startStudyBtn.disabled = true;
     startStudyBtn.textContent = "Loading Trials...";
@@ -313,6 +315,7 @@ submitStudyBtn.addEventListener("click", async () => {
 
     const payload = {
         participant_id: participantId,
+        participant_name: participantName,
         condition: "no_ai",
         total_trials: trials.length,
         attention_check_passed: attentionPassed,
@@ -349,7 +352,8 @@ submitStudyBtn.addEventListener("click", async () => {
     const correctCount = evaluatedTrials.filter(t => t.is_correct).length;
 
     summaryStats.innerHTML = `
-        <strong>Participant:</strong> ${participantId}<br>
+        <strong>Participant ID:</strong> ${participantId}<br>
+        <strong>Uniqname / Name:</strong> ${participantName}<br>
         <strong>Condition:</strong> Baseline (Without AI)<br>
         <strong>Evaluated Decisions Correct:</strong> ${correctCount} / ${evaluatedTrials.length} (${deferredCount} deferred)<br>
         <strong>Attention Check:</strong> ${attentionPassed ? "Passed" : "Missed"}<br>
