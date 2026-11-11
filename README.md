@@ -22,3 +22,13 @@ Participants inspect 10 randomly sampled smartphone images of skin lesions from 
 python3 -m http.server 3000
 ```
 Then open `http://localhost:3000` in your browser.
+
+## Dataset Sources & Citations
+* **PAD-UFES-20 (`study_images/` & `study_dataset_metadata.csv`):**
+  * **Source:** [https://data.mendeley.com/datasets/zr7vgbcyr2/](https://data.mendeley.com/datasets/zr7vgbcyr2/)
+  * **Citation:** Pacheco, A. G. C., Lima, G. R., Salomão, A. S., Krohling, B., Biral, I. P., de Angelo, G. G., Alves Jr, F. C. R., Esgario, J. G. M., Simora, A. C., Castro, P. B. C., Rodrigues, F. B., Frasson, P. H. L., Krohling, R. A., Knidel, H., Santos, M. C. S., Espírito Santo, R. B., Macedo, T. L. S. G., Canuto, T. R. P., & de Barros, L. F. S. (2020). *PAD-UFES-20: A skin lesion dataset composed of patient data and clinical images collected from smartphones* (Version 1) [Data set]. Mendeley Data. https://doi.org/10.17632/zr7vgbcyr2.1
+* **HAM10000 (`example_images/`):**
+  * **Source:** [https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/DBW86T](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/DBW86T)
+  * **Dataset Citation:** Tschandl, P. (2018). *The HAM10000 dataset, a large collection of multi-source dermatoscopic images of common pigmented skin lesions* (Version V4) [Data set]. Harvard Dataverse. https://doi.org/10.7910/DVN/DBW86T
+  * **Companion Article:** Tschandl, P., Rosendahl, C., & Kittler, H. (2018). The HAM10000 dataset, a large collection of multi-source dermatoscopic images of common pigmented skin lesions. *Scientific Data*, 5, 180161. https://doi.org/10.1038/sdata.2018.161
+
