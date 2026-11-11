@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin Lesion Triage Study (Baseline - Without AI)</title>
+    <link rel="stylesheet" href="styles.css?v=3">
+</head>
+<body>
+    <!-- Start Modal: Auto-Generated Participant ID -->
+    <div id="start-modal" class="modal-overlay">
+        <div class="modal-card">
+            <h2 class="centered-title" style="text-align: center;">Skin Lesion Screening Study (Baseline Condition)</h2>
+            <p>
+                Welcome! In this study, you will evaluate <strong>10 smartphone photos of skin lesions</strong> (plus 1 quick attention check) to determine if they appear <strong>Malignant</strong> (potentially cancerous) or <strong>Benign</strong> (non-cancerous).
+            </p>
+            <ul class="modal-list">
+                <li><strong>Malignant:</strong> The lesion shows suspicious features (e.g., asymmetry, irregular borders, multiple colors, crusting/ulceration).</li>
+                <li><strong>Benign:</strong> The lesion appears uniform, symmetrical, and non-cancerous.</li>
+                <li><strong>Defer:</strong> The photo is out of focus, blurry, or not specific enough to determine if it is malignant or not.</li>
+            </ul>
+            <p class="modal-note">
+                You are not expected to be a medical expert—use the <strong>Example Lesions</strong> (left panel) and <strong>General Lesion Guidance</strong> (right panel) shown on screen at all times.
+            </p>
+            <div class="warning-box">
+                <strong>&#9888;&#65039; Viewer Discretion Advised:</strong> Contains graphic medical images of skin lesions. Participation is voluntary, if you feel uncomfortable or prefer not to continue, you may close and exit this browser tab now.
+            </div>
+            <div class="generated-id-box">
+                <span>Your Assigned Participant ID:</span>
+                <strong id="generated-participant-id">Generating...</strong>
+            </div>
+            <button id="start-study-btn" class="primary-btn">Start Study (11 Trials)</button>
+        </div>
+    </div>
+
+    <!-- Post-Study Survey Modal (Required Additional Measurement) -->
+    <div id="survey-modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <h2 class="centered-title">Final Step: Quick Experience Survey</h2>
+            <p>You have evaluated all images! Before submitting, please answer these two quick questions about your experience:</p>
+
+            <div class="form-group">
+                <label>1. How confident did you feel in your skin lesion classifications overall?</label>
+                <div class="rating-row" id="confidence-rating">
+                    <label><input type="radio" name="confidence" value="1"> 1 (Not at all confident)</label>
+                    <label><input type="radio" name="confidence" value="2"> 2</label>
+                    <label><input type="radio" name="confidence" value="3"> 3 (Moderately)</label>
+                    <label><input type="radio" name="confidence" value="4"> 4</label>
+                    <label><input type="radio" name="confidence" value="5"> 5 (Very confident)</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>2. How mentally demanding or difficult was the task without AI assistance?</label>
+                <div class="rating-row" id="difficulty-rating">
+                    <label><input type="radio" name="difficulty" value="1"> 1 (Very easy)</label>
+                    <label><input type="radio" name="difficulty" value="2"> 2</label>
+                    <label><input type="radio" name="difficulty" value="3"> 3 (Moderate)</label>
+                    <label><input type="radio" name="difficulty" value="4"> 4</label>
+                    <label><input type="radio" name="difficulty" value="5"> 5 (Very demanding)</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="survey-comments">Optional comments about your strategy or experience:</label>
+                <textarea id="survey-comments" rows="2" placeholder="Optional notes..."></textarea>
+            </div>
+
+            <span id="survey-error" class="error-text hidden">Please select a rating for both questions 1 and 2.</span>
+            <button id="submit-study-btn" class="primary-btn">Submit Responses</button>
+        </div>
+    </div>
+
+    <!-- Completion Modal -->
+    <div id="complete-modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <h2 class="centered-title">Thank You! Study Complete</h2>
+            <p id="submission-status-msg">Your responses have been recorded successfully.</p>
+            <div id="summary-stats" class="summary-box"></div>
+            <button id="download-backup-btn" class="secondary-btn">Download Backup Copy of My Results (JSON)</button>
+        </div>
+    </div>
+
+    <!-- Image Enlarge Lightbox -->
+    <div id="lightbox-modal" class="modal-overlay hidden" onclick="closeLightbox()">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <img id="lightbox-img" src="" alt="Enlarged Lesion">
+            <p id="lightbox-caption"></p>
+        </div>
+    </div>
+
+    <!-- MAIN WIREFRAME LAYOUT -->
+    <div class="app-container">
+        <!-- Top Row: Instructions -->
+        <header class="instructions-bar">
+            <div class="instructions-header">
+                <span class="badge">Baseline Condition (Without AI)</span>
+                <h1>Instructions</h1>
+                <span id="progress-badge" class="progress-badge">Image 1 of 11</span>
+            </div>
+            <p class="instructions-text">
+                Inspect the <strong>Current Medical Image</strong> in the center panel using the <strong>Examples of Lesions</strong> (left) and <strong>General Lesion Guidance</strong> (right). Select <strong>Malignant</strong> if the lesion looks potentially cancerous, <strong>Benign</strong> if it appears non-cancerous, or <strong>Defer</strong> if the photo is out of focus, blurry, or not specific enough to evaluate. Then click <strong>Next Image</strong>.
+            </p>
+        </header>
+
+        <!-- Middle Row: 3-Column Grid -->
+        <main class="main-grid">
+            <!-- Left Panel: Examples of 4 Malignant & 2 Benign Lesions -->
+            <aside class="side-panel examples-panel">
+                <h2>Examples of Lesions <span class="sub-heading">(Click any image to enlarge)</span></h2>
+                
+                <div class="example-card malignant-example" onclick="openLightbox('example_images/example_mel.jpg', 'Melanoma (Malignant): Asymmetrical shape, irregular notched borders, and multiple dark brown/black color shades.')">
+                    <img src="example_images/example_mel.jpg" alt="Melanoma Example">
+                    <div class="example-info">
+                        <strong>Melanoma (Malignant)</strong>
+                        <p>Asymmetrical shape, uneven dark brown/black colors, irregular border.</p>
+                    </div>
+                </div>
+
+                <div class="example-card malignant-example" onclick="openLightbox('example_images/example_bcc.jpg', 'Basal Cell Carcinoma (Malignant): Pearly or pinkish bump, rolled borders, visible tiny blood vessels or central ulceration/crust.')">
+                    <img src="example_images/example_bcc.jpg" alt="Basal Cell Carcinoma Example">
+                    <div class="example-info">
+                        <strong>Basal Cell Carcinoma (Malignant)</strong>
+                        <p>Pearly/pinkish nodule, crusted or ulcerated center, visible vessels.</p>
+                    </div>
+                </div>
+
+                <div class="example-card malignant-example" onclick="openLightbox('example_images/example_akiec.jpg', 'Actinic Keratosis (Malignant): Rough, reddish-pink scaly patch or crusted precancerous plaque on sun-exposed skin.')">
+                    <img src="example_images/example_akiec.jpg" alt="Actinic Keratosis Example">
+                    <div class="example-info">
+                        <strong>Actinic Keratosis (Malignant)</strong>
+                        <p>Rough, scaly, reddish-pink patch or dry crusted surface lesion.</p>
+                    </div>
+                </div>
+
+                <div class="example-card malignant-example" onclick="openLightbox('example_images/example_scc.jpg', 'Squamous Cell Carcinoma (Malignant): Firm red nodule or thickened, scaly, crusted plaque that may ulcerate.')">
+                    <img src="example_images/example_scc.jpg" alt="Squamous Cell Carcinoma Example">
+                    <div class="example-info">
+                        <strong>Squamous Cell Carcinoma (Malignant)</strong>
+                        <p>Thickened red/pink scaly plaque, raised firm border, or crusted growth.</p>
+                    </div>
+                </div>
+
+                <div class="example-card benign-example" onclick="openLightbox('example_images/example_nv.jpg', 'Normal Mole / Nevus (Benign): Round/oval symmetry, sharp regular border, uniform tan or brown color.')">
+                    <img src="example_images/example_nv.jpg" alt="Benign Mole Example">
+                    <div class="example-info">
+                        <strong>Normal Mole / Nevus (Benign)</strong>
+                        <p>Symmetrical, smooth border, uniform single tan/brown color.</p>
+                    </div>
+                </div>
+
+                <div class="example-card benign-example" onclick="openLightbox('example_images/example_sek.jpg', 'Seborrheic Keratosis (Benign): Benign wart-like or stuck-on tan/brown growth with a well-defined border.')">
+                    <img src="example_images/example_sek.jpg" alt="Seborrheic Keratosis Example">
+                    <div class="example-info">
+                        <strong>Seborrheic Keratosis (Benign)</strong>
+                        <p>Benign "stuck-on" or wart-like tan/brown growth with clear edges.</p>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center Panel: Current Medical Image -->
+            <section class="center-panel">
+                <div class="center-header">
+                    <h2 id="trial-title">Current Medical Image</h2>
+                    <span id="selection-status" class="status-pill status-unselected">No decision selected yet</span>
+                </div>
+
+                <!-- Attention Check Banner (Only visible during the attention check trial) -->
+                <div id="attention-banner" class="attention-banner hidden">
+                    <strong>Attention Check Trial:</strong> To verify that you are reading the instructions carefully, please select the <strong>"Defer"</strong> button for this image before clicking Next Image.
+                </div>
+
+                <div class="image-stage">
+                    <img id="current-trial-image" src="" alt="Current Skin Lesion" onclick="openCurrentImageLightbox()">
+                </div>
+                <p class="image-hint">Tip: Click the image to zoom in. Select one of the 3 decision buttons below.</p>
+            </section>
+
+            <!-- Right Panel: General Lesion Guidance -->
+            <aside class="side-panel guidance-panel">
+                <h2>General Lesion Guidance</h2>
+
+                <div class="guidance-section">
+                    <h3>ABCDE Warning Signs (Malignant)</h3>
+                    <ul class="guidance-list">
+                        <li><strong>A — Asymmetry:</strong> One half of the lesion does not match the other half in shape or appearance.</li>
+                        <li><strong>B — Border:</strong> Edges are irregular, ragged, notched, or blurred into surrounding skin.</li>
+                        <li><strong>C — Color:</strong> Non-uniform color; multiple shades of brown, black, pink, red, or white/blue patches.</li>
+                        <li><strong>D — Diameter &amp; Form:</strong> Larger size (often &gt;6mm) or raised, nodular, ulcerated, or bleeding surface.</li>
+                        <li><strong>E — Evolving / Texture:</strong> Scaly, crusty, oozing, or pearly/translucent surface appearance.</li>
+                    </ul>
+                </div>
+
+                <div class="guidance-section benign-guidance">
+                    <h3>Signs of a Benign Lesion</h3>
+                    <ul class="guidance-list">
+                        <li><strong>Symmetrical shape:</strong> Round or oval with matching halves.</li>
+                        <li><strong>Uniform color:</strong> Even single shade of tan or brown.</li>
+                        <li><strong>Clear border:</strong> Smooth, well-defined edge.</li>
+                    </ul>
+                </div>
+
+                <div class="guidance-section defer-guidance">
+                    <h3>When to Choose "Defer"</h3>
+                    <ul class="guidance-list">
+                        <li>The photo is out of focus, blurry, or not specific enough to determine if it is malignant or not.</li>
+                    </ul>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Bottom Row: 5 Action Buttons matching Wireframe -->
+        <footer class="bottom-bar">
+            <button id="prev-btn" class="nav-btn" disabled>&larr; Prev Image</button>
+
+            <div class="decision-buttons-group">
+                <button id="btn-malignant" class="decision-btn btn-malignant" data-choice="malignant">
+                    Malignant
+                </button>
+                <button id="btn-benign" class="decision-btn btn-benign" data-choice="benign">
+                    Benign
+                </button>
+                <button id="btn-defer" class="decision-btn btn-defer" data-choice="defer">
+                    Defer
+                </button>
+            </div>
+
+            <button id="next-btn" class="nav-btn primary-nav-btn" disabled>Next Image &rarr;</button>
+        </footer>
+    </div>
+
+    <script src="app.js?v=2"></script>
+</body>
+</html>

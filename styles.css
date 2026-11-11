@@ -1,0 +1,560 @@
+/* ============================================================================
+   Styles for Skin Lesion Triage Study (Matches 3-Column Wireframe Layout)
+   ============================================================================ */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f4f6f8;
+    color: #1f2937;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Main App Container: Full Viewport Flex Column */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 12px 16px;
+    gap: 12px;
+}
+
+/* 1. Top Row: Instructions Bar */
+.instructions-bar {
+    background-color: #e5e7eb;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 10px 18px;
+    flex-shrink: 0;
+}
+
+.instructions-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.instructions-header h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #374151;
+}
+
+.badge {
+    background-color: #374151;
+    color: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+
+.progress-badge {
+    background-color: #2563eb;
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 999px;
+}
+
+.instructions-text {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: #374151;
+    text-align: center;
+}
+
+/* 2. Middle Row: 3-Column Wireframe Grid */
+.main-grid {
+    display: grid;
+    grid-template-columns: 270px 1fr 290px;
+    gap: 14px;
+    flex: 1;
+    min-height: 0; /* Allows inner panels to scroll if needed */
+}
+
+.side-panel,
+.center-panel {
+    background-color: #ebebeb;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.side-panel h2,
+.center-panel h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #374151;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.sub-heading {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #6b7280;
+    margin-top: 2px;
+}
+
+/* Left Panel: Examples of Lesions */
+.examples-panel {
+    gap: 8px;
+}
+
+.example-card {
+    background-color: #ffffff;
+    border-radius: 6px;
+    border-left: 4px solid #dc2626;
+    padding: 6px 8px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.example-card.benign-example {
+    border-left-color: #16a34a;
+}
+
+.example-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.example-card img {
+    width: 52px;
+    height: 52px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+    border: 1px solid #e5e7eb;
+}
+
+.example-info strong {
+    display: block;
+    font-size: 0.78rem;
+    color: #111827;
+    margin-bottom: 1px;
+}
+
+.example-info p {
+    font-size: 0.71rem;
+    color: #4b5563;
+    line-height: 1.2;
+}
+
+/* Center Panel: Current Medical Image */
+.center-panel {
+    align-items: center;
+    justify-content: space-between;
+}
+
+.center-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.status-pill {
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 999px;
+}
+
+.status-unselected {
+    background-color: #d1d5db;
+    color: #374151;
+}
+
+.status-malignant {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #f87171;
+}
+
+.status-benign {
+    background-color: #dcfce7;
+    color: #166534;
+    border: 1px solid #4ade80;
+}
+
+.status-defer {
+    background-color: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fbbf24;
+}
+
+.attention-banner {
+    width: 100%;
+    background-color: #fef3c7;
+    border: 2px solid #f59e0b;
+    color: #92400e;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.image-stage {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1f2937;
+    border-radius: 8px;
+    overflow: hidden;
+    min-height: 260px;
+    padding: 8px;
+}
+
+.image-stage img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 4px;
+    cursor: zoom-in;
+}
+
+.image-hint {
+    font-size: 0.78rem;
+    color: #4b5563;
+    margin-top: 6px;
+}
+
+/* Right Panel: General Lesion Guidance */
+.guidance-panel {
+    gap: 10px;
+}
+
+.guidance-section {
+    background-color: #ffffff;
+    border-radius: 6px;
+    padding: 10px 12px;
+    border-left: 4px solid #dc2626;
+}
+
+.guidance-section.benign-guidance {
+    border-left-color: #16a34a;
+}
+
+.guidance-section.defer-guidance {
+    border-left-color: #d97706;
+}
+
+.guidance-section h3 {
+    font-size: 0.86rem;
+    color: #111827;
+    margin-bottom: 6px;
+}
+
+.guidance-list {
+    padding-left: 16px;
+    font-size: 0.78rem;
+    line-height: 1.38;
+    color: #374151;
+}
+
+.guidance-list li {
+    margin-bottom: 4px;
+}
+
+/* 3. Bottom Bar: 5 Buttons matching Wireframe */
+.bottom-bar {
+    display: grid;
+    grid-template-columns: 170px 1fr 170px;
+    gap: 16px;
+    align-items: center;
+    flex-shrink: 0;
+    padding-top: 2px;
+}
+
+.decision-buttons-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+.nav-btn,
+.decision-btn {
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 6px;
+    border: 2px solid #d1d5db;
+    background-color: #e5e7eb;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.nav-btn:hover:not(:disabled),
+.decision-btn:hover {
+    background-color: #d1d5db;
+}
+
+.nav-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.primary-nav-btn:not(:disabled) {
+    background-color: #2563eb;
+    border-color: #1d4ed8;
+    color: #ffffff;
+}
+
+.primary-nav-btn:hover:not(:disabled) {
+    background-color: #1d4ed8;
+}
+
+/* Selected states for the 3 decision buttons */
+.btn-malignant.selected {
+    background-color: #dc2626;
+    border-color: #991b1b;
+    color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.25);
+}
+
+.btn-benign.selected {
+    background-color: #16a34a;
+    border-color: #166534;
+    color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.25);
+}
+
+.btn-defer.selected {
+    background-color: #d97706;
+    border-color: #92400e;
+    color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.25);
+}
+
+/* Modals (Start, Survey, Complete, Lightbox) */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(17, 24, 39, 0.72);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    max-width: 560px;
+    width: 100%;
+    padding: 24px 28px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+.modal-card h2 {
+    font-size: 1.35rem;
+    margin-bottom: 12px;
+    color: #111827;
+}
+
+.centered-title {
+    text-align: center;
+}
+
+.generated-id-box {
+    background-color: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 0.95rem;
+}
+
+.generated-id-box strong {
+    font-family: monospace;
+    font-size: 1.15rem;
+    color: #2563eb;
+    letter-spacing: 0.05em;
+}
+
+.modal-card p {
+    font-size: 0.94rem;
+    line-height: 1.5;
+    color: #374151;
+    margin-bottom: 12px;
+}
+
+.modal-list {
+    padding-left: 20px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #374151;
+}
+
+.modal-note {
+    background-color: #eff6ff;
+    border-left: 4px solid #2563eb;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.warning-box {
+    background-color: #fef2f2;
+    border: 1px solid #fca5a5;
+    border-left: 4px solid #dc2626;
+    color: #991b1b;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #1f2937;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+
+.rating-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+    background-color: #f9fafb;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+}
+
+.rating-row label {
+    font-weight: 500;
+    font-size: 0.84rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.error-text {
+    display: block;
+    color: #dc2626;
+    font-size: 0.84rem;
+    margin-top: 4px;
+    margin-bottom: 8px;
+}
+
+.primary-btn,
+.secondary-btn {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.primary-btn {
+    background-color: #2563eb;
+    color: #ffffff;
+}
+
+.primary-btn:hover {
+    background-color: #1d4ed8;
+}
+
+.secondary-btn {
+    background-color: #e5e7eb;
+    color: #1f2937;
+    margin-top: 10px;
+}
+
+.summary-box {
+    background-color: #f3f4f6;
+    border-radius: 6px;
+    padding: 14px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+/* Lightbox for Image Zoom */
+.lightbox-content {
+    background: #111827;
+    padding: 16px;
+    border-radius: 8px;
+    max-width: 85vw;
+    max-height: 88vh;
+    position: relative;
+    text-align: center;
+    color: #ffffff;
+}
+
+.lightbox-content img {
+    max-width: 78vw;
+    max-height: 75vh;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+.lightbox-content p {
+    margin-top: 10px;
+    font-size: 0.92rem;
+    color: #e5e7eb;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
